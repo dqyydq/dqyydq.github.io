@@ -175,7 +175,7 @@ export default function Portfolio() {
             fontSize: "16px",
           }}
         >
-          邓全尧
+          邓权耀
         </div>
         <a
           href="https://github.com/dqyydq"
