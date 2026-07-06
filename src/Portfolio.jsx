@@ -433,11 +433,11 @@ export default function Portfolio() {
             <Github size={16} /> github.com/dqyydq
           </a>
           <a
-            href="mailto:your-email@example.com"
+            href="mailto:dquanyao@gmail.com"
             className="flex items-center gap-2"
             style={{ color: "#12172B", fontSize: "14px", textDecoration: "none" }}
           >
-            <Mail size={16} /> your-email@example.com
+            <Mail size={16} /> dquanyao@gmail.com
           </a>
         </div>
         <div
