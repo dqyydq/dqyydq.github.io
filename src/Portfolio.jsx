@@ -205,7 +205,7 @@ export default function Portfolio() {
             }}
           >
             <Radio size={14} />
-            电子信息工程 · AI 应用开发
+            电子信息 · AI 应用开发
           </div>
           <h1
             style={{
