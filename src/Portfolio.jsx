@@ -447,7 +447,7 @@ export default function Portfolio() {
             color: "#9AA1AE",
           }}
         >
-          © {new Date().getFullYear()} 邓全尧 · Built with React
+          © {new Date().getFullYear()} dqy· Built with React
         </div>
       </section>
     </div>
