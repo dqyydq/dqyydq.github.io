@@ -1,0 +1,17 @@
+.now-section {
+  transition: padding-left .22s ease, background-color .22s ease;
+}
+
+@media (hover: hover) {
+  .now-section:hover {
+    padding-left: 10px;
+    background: rgba(236, 228, 216, .34);
+  }
+}
+
+@media (max-width: 640px) {
+  .now-section:hover {
+    padding-left: 0;
+    background: transparent;
+  }
+}
