@@ -1,0 +1,5 @@
+---
+const { entries } = Astro.props;
+const formatDate = (date: Date) => new Intl.DateTimeFormat("zh-CN", { year: "numeric", month: "long", day: "numeric" }).format(date);
+---
+<div class="article-list">{entries.map((entry) => <article class="article-row"><div class="article-date">{formatDate(entry.data.pubDate)}</div><div><div class="eyebrow">{entry.data.type}</div><h3><a href={`/blog/${entry.id}/`}>{entry.data.title}</a></h3><p>{entry.data.description}</p><div class="tag-list">{entry.data.tags.map((tag) => <span>{tag}</span>)}</div></div></article>)}</div>

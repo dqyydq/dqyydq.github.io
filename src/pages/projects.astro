@@ -1,0 +1,6 @@
+---
+import ProjectList from "../components/ProjectList.astro";
+import { projects } from "../data/projects";
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+<BaseLayout title="项目 - 邓权耀"><section class="page-intro"><p class="eyebrow">项目</p><h1>一些正在完成，<br />一些正在学习。</h1><p>这些项目记录我想解决的问题，以及我为此做过的尝试。</p></section><section class="section"><ProjectList items={projects} /></section></BaseLayout>

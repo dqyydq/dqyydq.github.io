@@ -1,0 +1,7 @@
+---
+import { getCollection } from "astro:content";
+import ArticleList from "../../components/ArticleList.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+const notes = (await getCollection("blog")).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+<BaseLayout title="笔记 - 邓权耀"><section class="page-intro"><p class="eyebrow">笔记</p><h1>把今天学到的，留给明天的自己。</h1><p>这里收录学习日志、源码解读和项目复盘。文章持续更新，不保证每篇都已有答案。</p></section><section class="section blog-index"><div class="filter-list"><span>学习日志</span><span>源码解读</span><span>项目复盘</span></div><ArticleList entries={notes} /></section></BaseLayout>

@@ -1,0 +1,6 @@
+---
+import type { Project } from "../data/projects";
+interface Props { items: Project[] }
+const { items } = Astro.props;
+---
+<div class="project-list">{items.map((project) => <article class="project-row"><div class="project-meta">{project.status}</div><div><h3><a href={project.href} target="_blank" rel="noreferrer">{project.name} <span aria-hidden="true">↗</span></a></h3><p>{project.summary}</p><div class="tag-list">{project.stack.map((item) => <span>{item}</span>)}</div></div></article>)}</div>

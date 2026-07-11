@@ -1,0 +1,9 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+export async function getStaticPaths() { const posts = await getCollection("blog"); return posts.map((post) => ({ params: { slug: post.id }, props: { post } })); }
+const { post } = Astro.props;
+const { Content } = await render(post);
+const formattedDate = new Intl.DateTimeFormat("zh-CN", { year: "numeric", month: "long", day: "numeric" }).format(post.data.pubDate);
+---
+<BaseLayout title={`${post.data.title} - 邓权耀`} description={post.data.description}><article class="post"><header class="post-header"><a class="back-link" href="/blog">← 所有笔记</a><p class="eyebrow">{post.data.type} · {formattedDate}</p><h1>{post.data.title}</h1><p class="post-description">{post.data.description}</p><div class="tag-list">{post.data.tags.map((tag) => <span>{tag}</span>)}</div></header><div class="prose"><Content /></div></article></BaseLayout>
