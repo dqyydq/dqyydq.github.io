@@ -1,8 +1,10 @@
 ---
 title: "Day 1：从零搭建一个 FastAPI + PostgreSQL + Docker 项目"
-date: 2026-07-11
+pubDate: 2026-07-11
 description: "记录用 Docker Compose 编排 PostgreSQL、用 FastAPI 写第一个接口、以及深入理解 async/await 事件循环的完整过程。"
+type: 学习日志
 tags: ["FastAPI", "PostgreSQL", "Docker", "Python", "async"]
+featured: false
 ---
 
 ## 前言
