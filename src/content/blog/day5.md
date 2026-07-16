@@ -314,7 +314,7 @@ def test_migration_upgrade_downgrade(alembic_cfg):
 
 **如何处理列重命名？（高频陷阱题）**
 
-autogenerate 检测不到重命名，会生成"删旧列 + 加新列"→ 数据全部丢失。必须手动写 `op.alter_column('table', 'old_name', new_column_name='new_name')`。
+autogenerate 不能可靠识别“重命名”这一业务意图，通常会生成删旧列和增新列，存在数据丢失风险。必须人工审查，并改成适合当前 Alembic 与 PostgreSQL 版本的重命名操作。
 
 **生产环境如何零停机执行迁移？**
 
@@ -352,6 +352,47 @@ def upgrade():
 
 ---
 
-## 下一步
+## SQL / 迁移实验补记
 
-Day 6 开始进入项目的业务层——Agent 运行引擎的实现。有了 Alembic 的基础，之后每次新增业务表都走 `alembic revision --autogenerate` + `alembic upgrade head` 的标准工作流，告别手动管理 DDL 的时代。
+当日的核心实验是 DDL 迁移，而不是业务查询。仓库中的迁移链可以证明建表变更已被版本化；以下命令用于重新验证，执行结果未在当日笔记中留存，不能视为已有自动化测试。
+
+```bash
+alembic current
+alembic history
+alembic upgrade head
+alembic downgrade -1
+alembic upgrade head
+```
+
+验证重点：
+
+1. `upgrade head` 后四张表、外键和唯一约束存在。
+2. `downgrade -1` 只撤销最后一个 revision，版本号同步回退。
+3. 再次 `upgrade head` 能恢复结构且不依赖 `create_all()`。
+4. 使用 `\d+ agent_runs` 和 `\d+ run_steps` 核对 `TIMESTAMPTZ`、NULL、默认值与模型是否一致。
+
+---
+
+## 仍不理解的内容
+
+- [ ] 生产环境中含数据列变更如何做到兼容发布和可回滚
+- [ ] Alembic 异步 `env.py` 与同步迁移执行之间的关系
+- [ ] CHECK、部分唯一索引等约束何时应手写迁移而不是依赖 autogenerate
+
+---
+
+## 已知问题
+
+- 没有保存 upgrade / downgrade 的终端输出，也没有迁移测试。
+- `agent_runs` 的幂等约束当前是全局 `UNIQUE(idempotency_key)`；项目目标要求评估并改为 `(conversation_id, idempotency_key)`。
+- Run 和 ToolCall 状态目前主要是文本默认值，缺少数据库 CHECK 约束与应用状态机验证。
+
+---
+
+## 明日任务
+
+- 学习 ACID、PostgreSQL 默认 Read Committed 和 Repeatable Read。
+- 用两个 psql 会话复现不可重复读、写冲突和 `SELECT FOR UPDATE`。
+- 复习迁移链、TIMESTAMPTZ、nullable 与 Python 类型标注的一致性。
+
+有了 Alembic 的基础，之后每次新增业务表都走 `alembic revision --autogenerate` + `alembic upgrade head` 的标准工作流，不再手动管理 DDL。

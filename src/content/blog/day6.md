@@ -282,7 +282,7 @@ COMMIT;
 
 **死锁怎么预防？**
 
-四个条件缺一不可：互斥、持有并等待、不可抢占、循环等待。预防方法——① 统一资源访问顺序（都按主键升序操作）；② 缩短事务；③ 设置 `lock_timeout`；④ 应用层加重试。PG 自动每 200ms 检测一次死锁，检测到后回滚代价最小的那个事务。
+四个条件缺一不可：互斥、持有并等待、不可抢占、循环等待。预防方法：① 统一资源访问顺序（都按主键升序操作）；② 缩短事务；③ 设置 `lock_timeout`；④ 应用层加重试。PostgreSQL 会自动检测死锁；锁等待超过 `deadlock_timeout` 后触发检查，常见默认值为 1 秒，以实例配置为准。检测到环路后，其中一个事务收到死锁错误并回滚，不能概括为固定选择“代价最小”的事务。
 
 ### 场景题
 
@@ -320,6 +320,16 @@ PG 用 fork 子进程（独立内存，隔离好但开销大），MySQL 用 thre
 
 ---
 
-## 下一步
+## 仍不理解的内容
 
-Day 7 深入 MVCC 底层——xmin、xmax、ctid、HOT Update、VACUUM 原理，以及开始写 Agent 运行引擎的核心 API（POST /runs、GET /runs/{id}）。
+- [x] MVCC 底层：xmin、xmax、ctid、tuple 版本链（Day 7 已完成基础实验）
+- [ ] Serializable 的 SSI 实现原理
+- [x] 死锁实验：A 锁行 1 等行 2，B 锁行 2 等行 1（Day 7 已复现）
+- [x] VACUUM 基础实操（Day 7 已完成）
+- [ ] VACUUM FULL 与 autovacuum 参数实验
+
+---
+
+## 明日任务
+
+Day 7 深入 MVCC 底层：xmin、xmax、ctid、HOT Update、VACUUM 原理，以及 Agent 运行引擎的核心 API（POST /runs、GET /runs/{id}）。
