@@ -5,6 +5,8 @@ description: "从 Psycopg 原生 SQL 升级到 SQLAlchemy Core：命名参数、
 type: 学习日志
 tags: ["SQLAlchemy", "PostgreSQL", "Python", "SQL", "窗口函数"]
 featured: false
+series: fastapi-postgres-learning
+seriesOrder: 3
 ---
 
 ## 前言

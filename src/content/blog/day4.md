@@ -5,6 +5,8 @@ description: "进入 SQLAlchemy ORM 层：Declarative Base、Session、Identity 
 type: 学习日志
 tags: ["SQLAlchemy", "ORM", "PostgreSQL", "Python", "FastAPI"]
 featured: false
+series: fastapi-postgres-learning
+seriesOrder: 4
 ---
 
 ## 前言

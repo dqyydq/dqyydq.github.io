@@ -5,6 +5,8 @@ description: "用 psql 双窗口亲手验证 Read Committed、Repeatable Read、
 type: 学习日志
 tags: ["PostgreSQL", "事务", "MVCC", "隔离级别", "并发", "面试"]
 featured: false
+series: fastapi-postgres-learning
+seriesOrder: 6
 ---
 
 ## 前言

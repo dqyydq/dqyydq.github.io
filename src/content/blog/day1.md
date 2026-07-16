@@ -5,6 +5,8 @@ description: "记录用 Docker Compose 编排 PostgreSQL、用 FastAPI 写第一
 type: 学习日志
 tags: ["FastAPI", "PostgreSQL", "Docker", "Python", "async"]
 featured: false
+series: fastapi-postgres-learning
+seriesOrder: 1
 ---
 
 ## 前言

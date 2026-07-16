@@ -5,5 +5,17 @@ export async function getStaticPaths() { const posts = await getCollection("blog
 const { post } = Astro.props;
 const { Content } = await render(post);
 const formattedDate = new Intl.DateTimeFormat("zh-CN", { year: "numeric", month: "long", day: "numeric" }).format(post.data.pubDate);
+const seriesPosts = post.data.series
+  ? (await getCollection("blog"))
+      .filter((candidate) => candidate.data.series === post.data.series)
+      .sort((a, b) => a.data.seriesOrder! - b.data.seriesOrder!)
+  : [];
+const seriesOrders = seriesPosts.map((candidate) => candidate.data.seriesOrder!);
+if (new Set(seriesOrders).size !== seriesOrders.length) {
+  throw new Error(`Series "${post.data.series}" contains duplicate seriesOrder values.`);
+}
+const currentIndex = seriesPosts.findIndex((candidate) => candidate.id === post.id);
+const previousPost = currentIndex > 0 ? seriesPosts[currentIndex - 1] : undefined;
+const nextPost = currentIndex >= 0 ? seriesPosts[currentIndex + 1] : undefined;
 ---
-<BaseLayout title={`${post.data.title} - 邓权耀`} description={post.data.description}><article class="post"><header class="post-header"><a class="back-link" href="/blog">← 所有笔记</a><p class="eyebrow">{post.data.type} · {formattedDate}</p><h1>{post.data.title}</h1><p class="post-description">{post.data.description}</p><div class="tag-list">{post.data.tags.map((tag) => <span>{tag}</span>)}</div></header><div class="prose"><Content /></div></article></BaseLayout>
+<BaseLayout title={`${post.data.title} - 邓权耀`} description={post.data.description}><article class="post"><header class="post-header"><a class="back-link" href="/blog">← 所有笔记</a><p class="eyebrow">{post.data.type} · {formattedDate}</p><h1>{post.data.title}</h1><p class="post-description">{post.data.description}</p><div class="tag-list">{post.data.tags.map((tag) => <span>{tag}</span>)}</div></header><div class="prose"><Content /></div>{seriesPosts.length > 1 && <nav class="series-navigation" aria-label="系列文章导航"><div>{previousPost && <a class="series-link series-link-previous" href={`/blog/${previousPost.id}/`}><span>← 上一篇</span><strong>{previousPost.data.title}</strong></a>}</div><div>{nextPost && <a class="series-link series-link-next" href={`/blog/${nextPost.id}/`}><span>下一篇 →</span><strong>{nextPost.data.title}</strong></a>}</div></nav>}</article></BaseLayout>

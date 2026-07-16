@@ -5,6 +5,8 @@ description: "深入 PostgreSQL MVCC 底层：用 xmin/xmax/ctid 追踪行的版
 type: 学习日志
 tags: ["PostgreSQL", "MVCC", "VACUUM", "死锁", "pageinspect", "数据库内核"]
 featured: false
+series: fastapi-postgres-learning
+seriesOrder: 7
 ---
 
 ## 前言
